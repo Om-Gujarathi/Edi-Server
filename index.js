@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const authRouter = require("./routes/auth");
 const tryingrouter = require("./routes/trying")
 //INIT
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const app = express();
 const DB =
   "mongodb+srv://omgujarathi:2a3c232c2d@cluster0.wiqgz58.mongodb.net/?retryWrites=true&w=majority";
