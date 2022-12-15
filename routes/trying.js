@@ -34,7 +34,11 @@ authRouter.post("/edi/adddate", async (req, res) => {
       return res.status(401).json({ msg: "This Course does not exist!" });
     }
 
-    var result = await allData.updateOne(
+    const query = { courseid };
+
+    const thatdoc = allData.findOne(query);
+
+    var result = await thatdoc.updateOne(
       {
         courseid: courseid,
       },
@@ -63,10 +67,19 @@ authRouter.post("/edi/addattendance", async (req, res) => {
     if (!existingCourse) {
       return res.status(401).json({ msg: "This Course does not exist!" });
     }
+  
+    const existingDate = await allData.findOne({ date });
+    if (!existingDate) {
+      return res.status(401).json({ msg: "This Date does not exist!" });
+    }
+
+    const query = { courseid };
+
+    const thatdoc = allData.findOne(query);
 
     let toset = `courseinfo.$.classattendance.${prn}`;
 
-    var result = await allData.updateOne(
+    var result = await thatdoc.updateOne(
       {
         "courseinfo.date": date,
       },
