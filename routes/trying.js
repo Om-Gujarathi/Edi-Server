@@ -105,12 +105,16 @@ authRouter.post("/edi/modifyOn", async (req, res) => {
       return res.status(401).json({ msg: "This Course does not exist!" });
     }
 
-    const existingDate = await allData.findOne({ date });
-    if (!existingCourse) {
+    const query = { courseid };
+
+    const thatdoc = allData.findOne(query);
+
+    const existingDate = await thatdoc.findOne({ date });
+    if (!existingDate) {
       return res.status(401).json({ msg: "This Date does not exist!" });
     }
 
-    var result = await allData.updateOne(
+    var result = await thatdoc.updateOne(
       {
         "courseinfo.date": date,
       },
@@ -136,12 +140,16 @@ authRouter.post("/edi/modifyOff", async (req, res) => {
       return res.status(401).json({ msg: "This Course does not exist!" });
     }
 
-    const existingDate = await allData.findOne({ date });
-    if (!existingCourse) {
+    const query = { courseid };
+
+    const thatdoc = allData.findOne(query);
+
+    const existingDate = await thatdoc.findOne({ date });
+    if (!existingDate) {
       return res.status(401).json({ msg: "This Date does not exist!" });
     }
 
-    var result = await allData.updateOne(
+    var result = await thatdoc.updateOne(
       {
         "courseinfo.date": date,
       },
@@ -172,11 +180,6 @@ authRouter.post("/edi/howIsModify", async (req, res) => {
       return res.status(401).json({ msg: "This Date does not exist!" });
     }
 
-    // let result = await allData.aggregate([
-    //   {
-    //     $match: { "courseinfo.date": date },
-    //   },
-    // ]);
 
     var result = await allData.find(
       { "courseinfo.date": date , courseid},
